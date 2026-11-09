@@ -1,0 +1,28 @@
+node_modules
+dist
+playwright-report
+test-results
+.scratch
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+
+# Documentação e materiais de trabalho locais
+*.md
+*.pdf
+/*.txt
+codigoFontePagina.html
+/imagem_logo.avif
+imagens_atuais_*.avif
+video_teste.mp4
+
+# Testes não publicados neste repositório
+src/test/
+e2e/
+playwright.config.ts
+
+# Mídia provisória sem uso na aplicação final
+public/media/hero-voluntariado.png
+public/media/video-demonstrativo.mp4

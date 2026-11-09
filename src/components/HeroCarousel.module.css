@@ -1,0 +1,6 @@
+.carousel { position: relative; overflow: hidden; background: white; border: .7rem solid white; border-radius: 1.8rem; }
+.viewport { overflow: hidden; border-radius: 1.15rem; background: var(--blue-pale); }
+.viewport figure { margin: 0; }
+.viewport img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+@media(max-width:900px){.viewport img{aspect-ratio:16/10}}
+@media(max-width:520px){.carousel{border-width:.45rem;border-radius:1.25rem}.viewport{border-radius:.85rem}}
