@@ -25,4 +25,3 @@ playwright.config.ts
 
 # Mídia provisória sem uso na aplicação final
 public/media/hero-voluntariado.png
-public/media/video-demonstrativo.mp4

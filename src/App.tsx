@@ -1,7 +1,8 @@
 import { Carousel } from './components/Carousel';
+import { DonationMethods } from './components/DonationMethods';
 import { Gallery } from './components/Gallery';
 import { Header, type NavItem } from './components/Header';
-import { HeroCarousel } from './components/HeroCarousel';
+import { HeroVideo } from './components/HeroVideo';
 import { MediaAlbum, VideoAlbum } from './components/MediaAlbums';
 import { PixModule } from './components/PixModule';
 import { SectionHeading } from './components/SectionHeading';
@@ -21,7 +22,11 @@ function PresenceIcon() { return <svg viewBox="0 0 80 80" aria-hidden="true"><ci
 
 export function App() {
   const contacts = siteContent.contacts.filter((contact) => contact.status === 'confirmed' || contact.status === 'demo');
-  const actionDetails = [siteContent.action.day, siteContent.action.time, siteContent.action.address].filter((item) => item.status === 'confirmed' || item.status === 'demo');
+  const actionDetails = [
+    { label: 'Dia', detail: siteContent.action.day },
+    { label: 'Horário', detail: siteContent.action.time },
+    { label: 'Endereço', detail: siteContent.action.address },
+  ].filter(({ detail }) => detail.status === 'confirmed' || detail.status === 'demo');
 
   return <>
     <a className="skipLink" href="#conteudo">Pular para o conteúdo</a>
@@ -30,32 +35,43 @@ export function App() {
       <section className={styles.hero} id="inicio" aria-labelledby="hero-title">
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
-            <div className={styles.heroLogoWrap}><img className={styles.heroLogo} src="/imagem_logo.avif" width="360" height="154" alt="Delivery do Bem" /></div>
+            <div className={styles.heroLogoWrap}><img className={styles.heroLogo} src={`${import.meta.env.BASE_URL}imagem_logo.avif`} width="360" height="154" alt="Delivery do Bem" /></div>
             <h1 id="hero-title">Amor, cuidado e dignidade nas ruas</h1>
             <p className={styles.heroLead}>Uma vez por mês, voluntários entregam doações e conversam com pessoas em situação de rua em São Paulo.</p>
             <div className={styles.heroActions}><a className="button buttonPrimary" href="#voluntariado">Quero participar</a><a className="button buttonSecondary" href="#ajudar">Como posso ajudar</a></div>
           </div>
-          <div className={styles.heroVisual}><HeroCarousel items={siteContent.heroSlides} /></div>
+          <div className={styles.heroVisual}>
+            <HeroVideo video={siteContent.heroVideo} />
+            <div className={styles.heroSocial} aria-label="Redes sociais oficiais">
+              <span>Acompanhe nossas ações</span>
+              <a href="https://www.instagram.com/acaodeliverydobem/" target="_blank" rel="noreferrer">Instagram</a>
+              <a href="https://www.facebook.com/acaodeliverydobem" target="_blank" rel="noreferrer">Facebook</a>
+            </div>
+          </div>
         </div>
         <a className={styles.scrollCue} href="#proposito">Conheça a causa</a>
       </section>
 
       <section className={`section ${styles.purpose}`} id="proposito"><div className="container">
-        <div className={styles.purposeGrid}><SectionHeading eyebrow="Nosso propósito" title="Apoio material com respeito e presença" /><div className={styles.editorialText}><p className={styles.lead}>Na última quinta-feira de cada mês, a equipe distribui alimentos, roupas e itens de higiene a pessoas em situação de rua.</p><p>As entregas são acompanhadas de conversa e escuta. A continuidade mensal ajuda voluntários e participantes a manter contato ao longo do tempo.</p></div></div>
+        <div className={styles.purposeGrid}><SectionHeading eyebrow="Nosso propósito" title="Apoio material com respeito e presença" /><div className={styles.editorialText}><p className={styles.lead}>Em cada encontro, a equipe distribui alimentos, roupas e itens de higiene a pessoas em situação de rua.</p><p>As entregas são acompanhadas de conversa e escuta. A continuidade mensal ajuda voluntários e participantes a manter contato ao longo do tempo.</p></div></div>
         <div className={styles.values} aria-label="Nossos valores"><article><strong>01</strong><h3>Presença</h3><p>Estar junto com escuta, tempo e atenção verdadeira.</p></article><article><strong>02</strong><h3>Dignidade</h3><p>Reconhecer cada pessoa para além de sua circunstância.</p></article><article><strong>03</strong><h3>Continuidade</h3><p>Construir vínculos por meio de encontros que se repetem.</p></article></div>
       </div></section>
 
-      <section className={`section ${styles.action}`} id="acao"><div className="container"><div className={styles.actionGrid}>
-        <div className={styles.actionVisual} aria-hidden="true"><div className={styles.monthCircle}><span>todo mês</span><span>um novo</span><span>encontro</span></div><span className={styles.routeLine} /><i className={styles.routeDotOne} /><i className={styles.routeDotTwo} /></div>
-        <div><SectionHeading eyebrow="Nossa ação" title="Ação mensal em São Paulo" intro="A equipe se reúne na última quinta-feira do mês, às 21h, na Avenida Washington Luís, 1277 - São Paulo, SP." /><div className={styles.actionFacts}><div><p><small>Frequência</small><strong>{siteContent.action.frequency}</strong></p></div>{actionDetails.map((detail) => <div key={detail.value}><p><small>Informação da ação</small><strong>{detail.value}</strong></p></div>)}</div></div>
-      </div></div></section>
+      <section className={`section ${styles.action}`} id="acao"><div className="container">
+        <div className={styles.actionHeader}>
+          <SectionHeading eyebrow="Nossa ação" title="Encontros que levam cuidado às ruas" />
+          <dl className={styles.actionFacts}>{actionDetails.map(({ label, detail }) => <div key={label}><dt>{label}</dt><dd>{detail.value}</dd></div>)}</dl>
+        </div>
+        <div className={styles.actionStage}>
+          <div className={styles.actionVisual} aria-hidden="true"><div className={styles.monthCircle}><span>todo mês</span><span>um novo</span><span>encontro</span></div><span className={styles.routeLine} /><i className={styles.routeDotOne} /><i className={styles.routeDotTwo} /></div>
+          <div className={styles.actionMap} aria-label="Localização do ponto de encontro">
+            <div className={styles.mapFrame}><iframe title="Mapa do ponto de encontro na Avenida Washington Luís, 1277" src="https://www.google.com/maps?q=Avenida+Washington+Luis,+1277,+Sao+Paulo,+SP&output=embed" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>
+            <div className={styles.mapToolbar}><span>Ponto de encontro</span><a className="button buttonPrimary" href="https://www.google.com/maps/dir/?api=1&destination=Avenida+Washington+Luis%2C+1277%2C+Sao+Paulo%2C+SP" target="_blank" rel="noreferrer">Abrir rotas no Google Maps</a></div>
+          </div>
+        </div>
+      </div></section>
 
-      <section className={styles.mapSection} aria-labelledby="map-title"><div className="container"><div className={styles.mapCard}>
-        <div className={styles.mapCopy}><p className={styles.mapEyebrow}>Ponto de encontro</p><h2 id="map-title">Local da saída</h2><p>Encontre a equipe na Avenida Washington Luís, 1277 - São Paulo, SP. Chegue alguns minutos antes para organizar as entregas.</p><dl><div><dt>Dia</dt><dd>{siteContent.action.day.value}</dd></div><div><dt>Horário</dt><dd>{siteContent.action.time.value}</dd></div><div><dt>Endereço</dt><dd>{siteContent.action.address.value}</dd></div></dl><a className="button buttonPrimary" href="https://www.google.com/maps/dir/?api=1&destination=Avenida+Washington+Luis%2C+1277%2C+Sao+Paulo%2C+SP" target="_blank" rel="noreferrer">Abrir rotas no Google Maps</a></div>
-        <div className={styles.mapFrame}><iframe title="Mapa do ponto de encontro na Avenida Washington Luís, 1277" src="https://www.google.com/maps?q=Avenida+Washington+Luis,+1277,+Sao+Paulo,+SP&output=embed" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>
-      </div></div></section>
-
-      <section className="section" id="ajudar"><div className="container">
+      <section className={`section ${styles.help}`} id="ajudar"><div className="container">
         <SectionHeading eyebrow="Faça parte" title="Como ajudar" intro="Você pode doar recursos ou itens essenciais e também participar da organização e das entregas." align="center" />
         <div className={styles.helpCards}>
           <article><span className={styles.cardNumber}>01</span><HeartHandsIcon /><h3>Contribua com recursos</h3><p>Faça uma doação direta pelo Pix. O QR Code não possui valor fixo.</p><a href="#pix">Ver dados do Pix</a></article>
@@ -63,6 +79,7 @@ export function App() {
           <article><span className={styles.cardNumber}>03</span><PresenceIcon /><h3>Doe tempo e presença</h3><p>Voluntários podem ajudar na organização dos itens e participar das entregas mensais.</p><a href="#voluntariado">Quero ser voluntário</a></article>
         </div>
         <PixModule config={siteContent.pix} />
+        <DonationMethods methods={siteContent.donationMethods} />
       </div></section>
 
       <section className={`section ${styles.volunteer}`} id="voluntariado"><div className="container"><div className={styles.volunteerGrid}><SectionHeading eyebrow="Voluntariado" title="Participe como voluntário" intro="Preencha o formulário para informar sua disponibilidade e como deseja colaborar com as próximas ações." /><VolunteerForm config={siteContent.volunteerForm} /></div></div></section>
@@ -77,6 +94,7 @@ export function App() {
 
       <section className={`section ${styles.contact}`} id="contato"><div className="container"><SectionHeading eyebrow="Contato" title="Fale com a equipe" intro="Use um dos canais abaixo para tirar dúvidas sobre doações, voluntariado e o ponto de encontro." align="center" /><ul className={styles.contactList}>{contacts.map((contact) => <li key={contact.label}><span>{contact.label}</span><a href={contact.href} target={contact.external ? '_blank' : undefined} rel={contact.external ? 'noreferrer' : undefined}>{contact.value}</a></li>)}</ul></div></section>
     </main>
-    <footer className={styles.footer}><div className="container"><a href="#inicio" aria-label="Voltar ao início"><img src="/imagem_logo.avif" alt="Delivery do Bem" width="180" height="77" /></a><p>Cuidado, presença e dignidade.</p><p>© {new Date().getFullYear()} Delivery do Bem</p></div></footer>
+    <a className={styles.floatingDonate} href="#pix" aria-label="Doar: ir para os dados do Pix"><span aria-hidden="true">♥</span> Doar</a>
+    <footer className={styles.footer}><div className="container"><a href="#inicio" aria-label="Voltar ao início"><img src={`${import.meta.env.BASE_URL}imagem_logo.avif`} alt="Delivery do Bem" width="180" height="77" /></a><p>Cuidado, presença e dignidade.</p><p>© {new Date().getFullYear()} Delivery do Bem</p></div></footer>
   </>;
 }

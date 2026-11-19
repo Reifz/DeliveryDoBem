@@ -22,7 +22,7 @@ export function PixModule({ config }: { config: PixConfig }) {
     QRCode.toDataURL(payload, {
       width: 240,
       margin: 2,
-      color: { dark: '#203f46', light: '#ffffff' },
+      color: { dark: '#000000', light: '#ffffff' },
     })
       .then(setQrCode)
       .catch(() => setQrCode(''));
@@ -41,7 +41,7 @@ export function PixModule({ config }: { config: PixConfig }) {
       {isDemo && <p className={styles.demoBanner} role="note">Demonstração - não realize pagamentos</p>}
       <div>
         <p className={styles.kicker}>{isDemo ? 'Interação demonstrativa' : 'Doação direta'}</p>
-        <h3 id="pix-title">{isDemo ? 'Pix de demonstração' : 'Pix seguro, sem intermediários'}</h3>
+        <h3 id="pix-title">{isDemo ? 'Pix de demonstração' : 'Fazer Pix'}</h3>
         <p>{isDemo ? 'A chave e o QR Code abaixo são inválidos para pagamentos e servem apenas para testar esta prévia.' : 'Confira os dados no aplicativo do seu banco antes de concluir.'}</p>
         <dl>
           <div><dt>Chave</dt><dd>{config.key.value}</dd></div>
